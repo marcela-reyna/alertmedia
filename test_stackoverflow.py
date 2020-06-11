@@ -1,12 +1,21 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from test_helper import XpathVariables
+import pytest
+import time
 
+driver = webdriver.Chrome()
 
-def test_stack_overflow():
-    driver = webdriver.Chrome()
+@pytest.fixture
+def setup_teardown():
+    print("Starting test...")
     driver.maximize_window()
     driver.implicitly_wait(5)
+    yield
+    driver.close()
+    print("Test complete.")
+
+def test_stack_overflow(setup_teardown):
 
     # Navigate to google.com and search for "stackoverflow"
     driver.get("https://www.google.com")
@@ -38,6 +47,9 @@ def test_stack_overflow():
     # Verification point: Verify result title or descriptions returned includes python 3.6.
 
     # Click the filter button.
+    # TODO: Improvements -
+    # 1. Use explicit waits for tricky elements that take time to load.
+    time.sleep(2)
     driver.find_element_by_xpath(XpathVariables.filter_button).click()
 
     # Click 'Most frequent' radio button.
@@ -49,7 +61,9 @@ def test_stack_overflow():
     # ... votes & number of views, then verify the top result meets that requirement.
 
     # Scroll down a tad.
-    # TODO: Improvement - Scroll & poll. See 'todo' 2 & 3 below for more details.
+    # TODO: Improvements -
+    # 1. Use Action chains to move to elements when in view for scrolling.
+    # 2. Use explicit waits for tricky elements that take time to load.
     for i in range(3):
         driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_DOWN)
 
@@ -61,12 +75,7 @@ def test_stack_overflow():
     # Verification point: Get all number of votes listed for results on page and verify the top result
     # ... is the highest number of votes.
 
-    # Close the window
-    driver.close()
-
-    # TODO: Additional improvements that can be made if given more time -
+    # TODO: Overall, additional improvements -
     # 1. Stay away from XPATH as much as possible. Use element name, id, text when possible.
     # ...or use CSS selectors.
-    # 2. Use Action chains to move to elements when in view for scrolling.
-    # 3. Use explicit waits for tricky elements that take time to load.
-    # 4. Implement assertions for verification.
+    # 2. Implement assertions for verification.
