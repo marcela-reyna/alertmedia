@@ -12,4 +12,4 @@ The following packages must be installed prior to running any tests.
 
 **How to run:**
 * From a terminal, change directories into a desired location and check out this repo.
-* Run command ```python -m pytest```
+* Run command ```python -m pytest -s```
