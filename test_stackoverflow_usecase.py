@@ -58,6 +58,8 @@ def test_stack_overflow():
     user_class_name = "user-details"
     user_name = driver.find_element_by_class_name(user_class_name).text.split()[0]
     print("The highest number of votes is %s for author %s." % (votes_num.text, user_name))
+    # Verification point: Get all number of votes listed for results on page and verify the top result
+    # ... is the highest number of votes.
 
     # Close the window
     driver.close()
